@@ -1,0 +1,17 @@
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Local config and secrets
+qq_map_cli_config.json
+
+# Build outputs
+build/
+dist/
+artifacts/
+*.spec
+
+# OS files
+.DS_Store
