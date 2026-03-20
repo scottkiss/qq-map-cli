@@ -6,7 +6,7 @@
 - 两个地址名之间距离与时长查询
 - 坐标距离矩阵查询
 - 首次运行自动生成配置文件
-- 打包为可直接分发的 macOS / Windows 可执行文件
+- 打包为可直接分发的 macOS / Windows / Linux 可执行文件
 
 ## 功能概览
 
@@ -29,6 +29,7 @@
 
 - macOS 用户下载 `qq-map-cli-darwin-*.zip`
 - Windows 用户下载 `qq-map-cli-windows-*.zip`
+- Linux 用户下载 `qq-map-cli-linux-*.zip`
 
 解压后可直接运行。
 
@@ -63,6 +64,23 @@
 .\qq-map-cli.exe address-distance `
   --from-address "北京市海淀区中关村大街27号" `
   --to-address "北京市朝阳区望京街10号" `
+  --mode driving
+```
+
+### Linux 用户
+
+第一次初始化配置：
+
+```bash
+./qq-map-cli setup --key "你的腾讯地图 key"
+```
+
+查询两个地址之间的驾车距离：
+
+```bash
+./qq-map-cli address-distance \
+  --from-address "北京市海淀区中关村大街27号" \
+  --to-address "北京市朝阳区望京街10号" \
   --mode driving
 ```
 
@@ -159,9 +177,9 @@ python3 scripts/build_release.py --onedir
 行为如下：
 
 - 手动触发 workflow 时：
-  构建 macOS 和 Windows 两个平台的 zip，并作为 Actions artifacts 上传
+  构建 macOS、Windows、Linux 三个平台的 zip，并作为 Actions artifacts 上传
 - 推送 tag，且 tag 名匹配 `v*` 时：
-  构建 macOS 和 Windows 包
+  构建 macOS、Windows、Linux 包
   然后自动发布到 GitHub Release
 
 ### 推荐发布流程
@@ -178,6 +196,7 @@ git push origin v1.0.0
 4. 在 GitHub Releases 页面直接拿到：
    - macOS zip
    - Windows zip
+   - Linux zip
 
 这样最终用户不需要装 Python，也不需要自己构建。
 
