@@ -25,12 +25,15 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import ssl
 import sys
 import urllib.error
 import urllib.parse
 import urllib.request
 from pathlib import Path
 from typing import Any
+
+import certifi
 
 
 DISTANCE_MATRIX_API_URL = "https://apis.map.qq.com/ws/distance/v1/matrix"
@@ -289,13 +292,21 @@ def request_json(
         headers=headers,
         method=method,
     )
+    ssl_context = ssl.create_default_context(cafile=certifi.where())
 
     try:
-        with urllib.request.urlopen(request, timeout=timeout) as response:
+        with urllib.request.urlopen(request, timeout=timeout, context=ssl_context) as response:
             body = response.read().decode("utf-8")
     except urllib.error.HTTPError as exc:
         error_body = exc.read().decode("utf-8", errors="replace")
         raise ApiError(f"HTTP {exc.code}: {error_body}") from exc
+    except ssl.SSLCertVerificationError as exc:
+        raise ApiError(
+            "TLS certificate verification failed. "
+            "Please install dependencies from requirements.txt, or use the packaged binary "
+            "which bundles CA certificates. "
+            f"Details: {exc}"
+        ) from exc
     except urllib.error.URLError as exc:
         raise ApiError(f"Request failed: {exc.reason}") from exc
 

@@ -105,6 +105,7 @@
 如果不打包，直接运行 Python 脚本也可以：
 
 ```bash
+python3 -m pip install -r requirements.txt
 python3 qq_map_cli.py setup --key "你的腾讯地图 key"
 python3 qq_map_cli.py geocoder --address "北京市海淀区彩和坊路海淀西大街74号"
 python3 qq_map_cli.py address-distance --from-address "A" --to-address "B"
@@ -115,13 +116,13 @@ python3 qq_map_cli.py address-distance --from-address "A" --to-address "B"
 ### 先安装构建依赖
 
 ```bash
-python3 -m pip install -r requirements-build.txt
+python3 -m pip install -r requirements.txt -r requirements-build.txt
 ```
 
 Windows 也一样：
 
 ```powershell
-python -m pip install -r requirements-build.txt
+python -m pip install -r requirements.txt -r requirements-build.txt
 ```
 
 ### macOS / Linux 本地打包
@@ -221,6 +222,27 @@ CLI 读取 `key` 的优先级：
 1. 命令行 `--key`
 2. 当前目录 `qq_map_cli_config.json`
 3. 环境变量 `QQ_MAP_KEY`
+
+## SSL 证书问题排查
+
+如果你遇到这类报错：
+
+```text
+SSL: CERTIFICATE_VERIFY_FAILED
+```
+
+优先按下面顺序处理：
+
+1. 如果你是源码运行，先安装依赖：
+
+```bash
+python3 -m pip install -r requirements.txt
+```
+
+2. 尽量使用打包后的可执行文件，因为打包版本会一起带上 CA 证书。
+3. 如果你是在公司网络、代理或自签名证书环境下运行，需要让系统或 Python 信任对应的根证书。
+
+当前版本已经默认使用 `certifi` 的 CA 证书包来发起 HTTPS 请求，这能解决大多数 mac 上的证书链问题。
 
 ## 常用命令示例
 
