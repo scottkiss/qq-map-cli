@@ -229,16 +229,3 @@ python3 qq_map_cli.py distance-matrix \
   --destination 39.908692,116.397477 \
   --mode walking
 ```
-
-## 当前已验证内容
-
-我已经在当前 mac 环境实际验证过：
-
-- `python3 scripts/build_release.py`
-- 生成 zip：
-  `artifacts/qq-map-cli-darwin-arm64.zip`
-- 生成可执行文件：
-  `dist/qq-map-cli`
-- 打包后的可执行文件可运行 `setup --help`
-
-Windows 包的生成通过 GitHub Actions 工作流完成，适合直接给 Windows 用户分发。
